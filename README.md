@@ -27,6 +27,7 @@ This is a simple yet functional **console-based banking simulator** written in C
 
 ### To Do
 - Transaction history
+- Delete user acount
 - Email-like notification (console simulated)
 - Secure password hashing
 
