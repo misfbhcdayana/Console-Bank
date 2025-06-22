@@ -10,29 +10,29 @@ This is a simple yet functional **console-based banking simulator** written in C
 - Persistent data storage using file system (users.txt)
 
 ### Project structure
-User_Account_System/
-│
-├── Program.cs
-|
-├── Model/
-│ └── User.cs
-│
-├── Services/
-| |── App.cs
-│ |── System.cs
-│ └── FileHandler.cs
-│
-├── Data/
-│ └── users.txt
-|
-└── README.md
+User_Account_System/<br>
+│<br>
+├── Program.cs<br>
+|<br>
+├── Model/<br>
+│ └── User.cs<br>
+│<br>
+├── Services/<br>
+| |── App.cs<br>
+│ |── System.cs<br>
+│ └── FileHandler.cs<br>
+│<br>
+├── Data/<br>
+│ └── users.txt<br>
+|<br>
+└── README.md<br>
 
 ### How to run
 #### Required
-    - .NET FrameWork(4.7.2+)
-    - VS19 or newer
+- .NET FrameWork(4.7.2+)
+- VS19 or newer
 1. Clone the repo:
-    ```bash git clone https://github.com/misfbhcdayana/Console-Bank.git
+    git clone https://github.com/misfbhcdayana/Console-Bank.git
 2. Open the `.sln` file in VS
 3. Build and Run
 
