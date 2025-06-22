@@ -9,18 +9,6 @@ This is a simple yet functional **console-based banking simulator** written in C
 - Admin view for all user data
 - Persistent data storage using file system (users.txt)
 
-### Project structure
-User_Account_System/<br>
-   Program.cs
-   Model/
-      User.cs
-   Services/
-      App.cs
-      System.cs
-      FileHandler.cs
-   bin/Debug/
-      users.text
-
 ### How to run
 #### Required
 - .NET FrameWork(4.7.2+)
