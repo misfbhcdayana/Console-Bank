@@ -8,21 +8,21 @@ namespace User_Account_System.Services
         private readonly System system;
         private const string AdminPassword = "open1234";
 
-        //new instance of Sysytem() 
         public App()
         {
+            //new instance of the System class
             system = new System();
         }
 
         public void Run()
         {
-            //state of the app runnung
             bool running = true;
+            //keep the app running unless closed
             while (running)
             {
+                //app menu
                 Console.Clear();
-                //Bank app menu
-                Console.WriteLine("=== Welcome to the Console Banking App ===\n");
+                Console.WriteLine("=== Welcoming to the Console Banking App ===\n");
                 Console.WriteLine("1. Create new user" +
                     "\n2. Access the system " +
                     "\n3. View All Users (Admin) " +
@@ -32,7 +32,7 @@ namespace User_Account_System.Services
                 switch (choice)
                 {
                     case "1":
-                        NewUser();
+                        CreateUser();
                         break;
                     case "2":
                         Login();
@@ -41,7 +41,6 @@ namespace User_Account_System.Services
                         AdminView();
                         break;
                     case "4":
-                        //set running to false once 'exit' is selected
                         running = false;
                         Console.WriteLine("Exiting the system...");
                         break;
@@ -53,14 +52,13 @@ namespace User_Account_System.Services
                 Console.ReadKey();
             }
         }//Run
-        private void NewUser()
+        private void CreateUser()
         {
-            //take in prefered username and password
+            //take user name and password
             Console.Write("Enter a new username: ");
             string username = Console.ReadLine();
             Console.Write("Enter a password: ");
             string password = Console.ReadLine();
-            //is system.CreateUser returns true, then the user doesn't exit
             if (system.CreateUser(username, password))
             {
                 Console.WriteLine(" Account created successfully.");
@@ -73,32 +71,31 @@ namespace User_Account_System.Services
 
         private void Login()
         {
-            //take username and password
+            //take login details
             Console.Write("Enter username: ");
             string username = Console.ReadLine();
             Console.Write("Enter password: ");
             string password = Console.ReadLine();
-            //user is of type 'User'
             var user = system.Login(username, password);
-            if (user == null) //if username not found
+            if (user == null)
             {
                 Console.WriteLine("Invalid login details.");
             }
             else
             {
-                //if the username and password match, run the app under the user's details
+                Console.WriteLine($"Welcome {user.Username}");
+                //run the app for the logged in user.
                 RunBankingMenu(user);
             }
         }
 
         private void RunBankingMenu(User user)
         {
-            //user active state
             bool active = true;
             while (active)
             {
                 Console.Clear();
-                //app menu
+                //user menu
                 Console.WriteLine($"Logged in as: {user.Username}");
                 Console.Write("1. Deposit" +
                     "\n2. Withdraw" +
@@ -111,26 +108,26 @@ namespace User_Account_System.Services
                 {
                     case "1":
                         Console.Write("Amount to deposit: R");
-                        //check for valid amount
+                        //amt must  be valid and greater than zero
                         if (decimal.TryParse(Console.ReadLine(), out decimal D_amt) && D_amt > 0)
                         {
                             user.Balance += D_amt;
-                            //update the text file
+                            //update the users in the text file
                             system.SaveUsers();
                             //confirm deposit
-                            Console.WriteLine($"Successfully deposited: R{D_amt}");
+                            Console.WriteLine($"Successfully deposited: {D_amt}");
                         }
                         else
                         {
                             Console.WriteLine("Invalid Amount.");
                         }
-                        Console.Write("\nPress any key to continue...");
-                        Console.ReadKey();
                         break;
                     case "2":
                         Console.Write("Amount to withdraw: R");
+                        //check if the withdrawal amount is valid
                         if (decimal.TryParse(Console.ReadLine(), out decimal W_amt) && W_amt > 0)
                         {
+                            //check if they have sufficient funds
                             if (W_amt <= user.Balance)
                             {
                                 user.Balance -= W_amt;
@@ -148,18 +145,15 @@ namespace User_Account_System.Services
                         {
                             Console.WriteLine("Invalid Amount.");
                         }
-                        Console.Write("\nPress any key to continue...");
-                        Console.ReadKey();
                         break;
                     case "3":
-                        //transfer funds
                         Console.Write("Enter the account holder's username: ");
                         string receiver = Console.ReadLine();
                         Console.Write("Enter the amount to send: R");
                         //check for valid amount
                         if (decimal.TryParse(Console.ReadLine(), out decimal amount))
                         {
-                            //if system.Transfer returns true
+                            //confirm transfer
                             if (system.Transfer(user.Username, receiver, amount))
                             {
                                 Console.Write($"Successfully transferred R{amount} to {receiver}.");
@@ -174,31 +168,27 @@ namespace User_Account_System.Services
                         {
                             Console.WriteLine("Invalid Amount.");
                         }
-                        Console.Write("\nPress any key to continue...");
-                        Console.ReadKey();
                         break;
                     case "4":
-                        //view balance
+                        //display balance
                         Console.WriteLine($"Your balance: {user.Balance}");
-                        Console.Write("\nPress any key to continue...");
-                        Console.ReadKey();
                         break;
                     case "5":
+                        //logout
                         active = false;
                         break;
                     default:
                         Console.WriteLine("Invalid choice");
-                        Console.Write("\nPress any key to continue...");
-                        Console.ReadKey();
                         break;  
                 }//switch case
+                Console.Write("\nPress any key to continue...");
+                Console.ReadKey();
             }//while loop
         }//RunBanking menu
         private void AdminView()
         {
             Console.Write("Enter the admin password: ");
             string adminpassword = Console.ReadLine();
-            //check the admin password
             if (adminpassword != AdminPassword)
             {
                 Console.WriteLine("Incorrect admin password.");
@@ -206,7 +196,6 @@ namespace User_Account_System.Services
             }
             else
             {
-                //users is a list of type 'User'
                 var users = system.GetAllUsers();
                 if (users.Count == 0)
                 {
@@ -214,7 +203,7 @@ namespace User_Account_System.Services
                 }
                 else
                 {
-                    Console.WriteLine("\n=== All Users ===");
+                    Console.WriteLine("=== All Users ===");
                     foreach (var user in users)
                     {
                         Console.WriteLine(user);
