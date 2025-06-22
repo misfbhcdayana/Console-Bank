@@ -1,6 +1,6 @@
 ## Console-Bank
 This is a simple yet functional **console-based banking simulator** written in C#. It uses a **class-based design**, supports **persistent data storage** using text files(substitute for a database), and allows for **basic banking operations** like deposits, withdrawals, and transfers.
----
+
 ### Features
 - Create and manage user accounts
 - Secure access by authenticating passwords 
@@ -11,34 +11,35 @@ This is a simple yet functional **console-based banking simulator** written in C
 
 ### Project structure
 User_Account_System/<br>
-│<br>
+├
 ├── Program.cs<br>
-|<br>
+├
 ├── Model/<br>
 │ └── User.cs<br>
-│<br>
+├
 ├── Services/<br>
-| |── App.cs<br>
-│ |── System.cs<br>
+| ├── App.cs<br>
+│ ├──System.cs<br>
 │ └── FileHandler.cs<br>
-│<br>
+├
 ├── Data/<br>
 │ └── users.txt<br>
-|<br>
+├
 └── README.md<br>
 
 ### How to run
 #### Required
 - .NET FrameWork(4.7.2+)
 - VS19 or newer
-1. Clone the repo:
+#### Run
+1. Clone the repo:<br>
     git clone https://github.com/misfbhcdayana/Console-Bank.git
 2. Open the `.sln` file in VS
 3. Build and Run
 
 ### Note
 - For admin access, use password `open1234`
-- All user data is saved in `` and each line contains `username|password|balance`
+- All user data is saved in `users.txt` and each line contains `username|password|balance`
 
 ### To Do
 - Transaction history
@@ -47,4 +48,4 @@ User_Account_System/<br>
 
 ### Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change of improve.
-<p>Made with ❤️ and C#</p>
+<p style="align:center">Made with ❤️ and C#</p>
