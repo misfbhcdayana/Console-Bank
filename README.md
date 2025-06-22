@@ -11,20 +11,20 @@ This is a simple yet functional **console-based banking simulator** written in C
 
 ### Project structure
 User_Account_System/<br>
-├
+├<br>
 ├── Program.cs<br>
-├
+├<br>
 ├── Model/<br>
 │ └── User.cs<br>
-├
+├<br>
 ├── Services/<br>
 | ├── App.cs<br>
 │ ├──System.cs<br>
 │ └── FileHandler.cs<br>
-├
+├<br>
 ├── Data/<br>
 │ └── users.txt<br>
-├
+├<br>
 └── README.md<br>
 
 ### How to run
@@ -33,7 +33,9 @@ User_Account_System/<br>
 - VS19 or newer
 #### Run
 1. Clone the repo:<br>
+```bash
     git clone https://github.com/misfbhcdayana/Console-Bank.git
+```
 2. Open the `.sln` file in VS
 3. Build and Run
 
