@@ -11,21 +11,15 @@ This is a simple yet functional **console-based banking simulator** written in C
 
 ### Project structure
 User_Account_System/<br>
-├<br>
-├── Program.cs<br>
-├<br>
-├── Model/<br>
-│ └── User.cs<br>
-├<br>
-├── Services/<br>
-| ├── App.cs<br>
-│ ├──System.cs<br>
-│ └── FileHandler.cs<br>
-├<br>
-├── Data/<br>
-│ └── users.txt<br>
-├<br>
-└── README.md<br>
+   Program.cs
+   Model/
+      User.cs
+   Services/
+      App.cs
+      System.cs
+      FileHandler.cs
+   bin/Debug/
+      users.text
 
 ### How to run
 #### Required
