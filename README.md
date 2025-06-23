@@ -33,4 +33,4 @@ This is a simple yet functional **console-based banking simulator** written in C
 
 ### Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change of improve.
-<p style="align:center">Made with ❤️ and C#</p>
+<p align="center">Made with ❤️ and C#</p>
