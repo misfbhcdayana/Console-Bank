@@ -3,9 +3,11 @@ This is a simple yet functional **console-based banking simulator** written in C
 
 ### Features
 - Create and manage user accounts
+- Delete accounts
 - Secure access by authenticating passwords 
 - Deposit, Withdraw and Check balance
 - Transfer funds between users
+- View transaction history
 - Admin view for all user data
 - Persistent data storage using file system (users.txt)
 
@@ -23,13 +25,17 @@ This is a simple yet functional **console-based banking simulator** written in C
 
 ### Note
 - For admin access, use password `open1234`
-- All user data is saved in `users.txt` and each line contains `username|password|balance`
+- All user data is saved in `bin\Debug\users.txt` and each line contains `username|password|balance`
+- Transaction History for each user is saved in`bin\Debug\Transactions\transactions_{username}.txt` and saved as  
 
 ### To Do
-- Transaction history
-- Delete user acount
-- Email-like notification (console simulated)
+- Criteria and checks for creating account username and password
 - Secure password hashing
+
+### Added (23/06/2025)
+- Delete User account
+- Transaction History
+- Confirm payments
 
 ### Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change of improve.
