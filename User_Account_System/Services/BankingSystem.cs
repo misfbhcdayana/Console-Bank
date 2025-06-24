@@ -18,19 +18,56 @@ namespace User_Account_System.Services
             LoadUsers();
         }//System
 
-        public bool CreateUser(string username, string password)
+        public (bool, bool) CreateUser(string username, string password)
         {
-            //if for any element present in the list 'Users', say u, if u.Username == username,
-            //return false (account not created)
+            //the username and password meet the validation criteria
+            bool valid_details = true;
+            //the account doesn't exist yet
+            bool valid_acc = true;
             if (Users.Any(u => u.Username.Equals(username)))
             {
-                return false;
+                //if an existing username matches, then it's not valid
+                valid_acc = false;
             }
-            //else, add the user (account) and save the Users
-            Users.Add(new User(username, password));
-            SaveUsers();
-            //return true (account created)
-            return true;
+            //if the username and password lengths meet the length criteria, check for special characters, upper and Lowercase character 
+            if (username.Length >= 6 && username.Length<=20 && password.Length >= 8 && password.Length <= 35)
+            {
+                foreach (char c in username)
+                {
+                    //if the character is not a letter or digit or an underscore, then it's a special character and the username is invalid.
+                    if (!char.IsLetterOrDigit(c) && c != '_')
+                        valid_details = false;
+                }
+                int SpecialCharCount = 0;
+                int UpperCharCount = 0;
+                int LowerCharCount = 0;
+                int DigitCount = 0;
+                foreach (char c in password)
+                {
+                    if (char.IsDigit(c))
+                        DigitCount++;
+                    if (char.IsUpper(c))
+                        UpperCharCount++;
+                    if (char.IsLower(c))
+                        LowerCharCount++;
+                    if (!char.IsLetterOrDigit(c)) //if it's not a letter or digit, then it's a special character
+                        SpecialCharCount++;
+                }
+                //if there is not atleast one of each type of character, valid_details=false
+                if (SpecialCharCount == 0 || UpperCharCount == 0 || LowerCharCount == 0 || DigitCount == 0)
+                    valid_details = false;
+            }
+            else //if the username and password lengths do not meet the length criteria, automaticatically disqualify them
+            {
+                valid_details = false;
+            }
+            if (valid_details && valid_acc)
+            {
+                //if the account doesn't exist, and the username and password meet the criteria, create the account
+                Users.Add(new User(username, password));
+                SaveUsers();
+            }
+            return (valid_details, valid_acc);
         }//CreateUsers
         public User Login(string username, string password)
         {

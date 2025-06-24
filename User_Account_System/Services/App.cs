@@ -57,18 +57,35 @@ namespace User_Account_System.Services
         private void NewUser()
         {
             //take in prefered username and password
-            Console.Write("Enter a new username: ");
-            string username = Console.ReadLine();
-            Console.Write("Enter a password: ");
+            Console.WriteLine("\nUsername criteria:" + 
+                "\n\t- Must be atleast 6 characters long and not more than 20 characters" + 
+                "\n\t- Must not contain any special characters except an underscore (_)");
+            Console.Write("\nEnter a new username: ");
+            string username = Console.ReadLine().Trim();
+            Console.WriteLine("\nPassword criteria:" +
+                "\n\t- Must be between 8 and 35 character" +
+                "\n\t- Must contain atleast 1 uppercase letter" +
+                "\n\t- Must contain atleast 1 lowercase letter" +
+                "\n\t- Must contain at least 1 number");
+            Console.Write("\nEnter a password: ");
             string password = Console.ReadLine();
+            (bool Valid_Details, bool Valid_Acc) = _bank.CreateUser(username, password);
             //is system.CreateUser returns true, then the user doesn't exit
-            if (_bank.CreateUser(username, password))
+            if (Valid_Acc)
             {
-                Console.WriteLine(" Account created successfully.");
+                if (Valid_Details)
+                {
+                    Console.WriteLine("\n\tAccount created successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Username or Password do not meet the criteria.");
+                }
+                
             }
             else
             {
-                Console.WriteLine("Username already exists");
+                Console.WriteLine("Username already exists!");
             }
         }//create user
 
