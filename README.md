@@ -26,16 +26,13 @@ This is a simple yet functional **console-based banking simulator** written in C
 ### Note
 - For admin access, use password `open1234`
 - All user data is saved in `bin\Debug\users.txt` and each line contains `username|password|balance`
-- Transaction History for each user is saved in`bin\Debug\Transactions\transactions_{username}.txt` and saved as  
+- Transaction History for each user is saved in`bin\Debug\Transactions\transactions_{username}.txt` 
 
 ### To Do
-- Criteria and checks for creating account username and password
 - Secure password hashing
 
-### Added (23/06/2025)
-- Delete User account
-- Transaction History
-- Confirm payments
+### Added (24/06/2025)
+- Criteria and checks for creating account username and password
 
 ### Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change of improve.
