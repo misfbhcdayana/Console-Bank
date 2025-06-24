@@ -31,7 +31,7 @@ This is a simple yet functional **console-based banking simulator** written in C
 ### To Do
 - Secure password hashing
 
-### Added (23/06/2025)
+### Added (24/06/2025)
 - Criteria and checks for creating account username and password
 
 ### Contributing
