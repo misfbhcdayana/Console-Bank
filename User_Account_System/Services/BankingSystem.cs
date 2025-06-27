@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 using User_Account_System.Models;
 
 
@@ -89,17 +90,17 @@ namespace User_Account_System.Services
             {
                 //parts is of type string[]
                 string[] parts = line.Split('|');
-                if (parts.Length==3 && decimal.TryParse(parts[2], out decimal balance))
+                if (parts.Length==4 && decimal.TryParse(parts[2], out decimal balance))
                 {
                     //populate the list with all existing users
-                    Users.Add(new User(parts[0], parts[1], balance));
+                    Users.Add(new User(parts[0], parts[1], balance, Convert.ToInt32(parts[3])));
                 }
             }
         }//LoadUsers
 
         public void SaveUsers()
         {
-            IEnumerable<string> lines = Users.Select(u => $"{u.Username}|{u.Password}|{u.Balance}");
+            IEnumerable<string> lines = Users.Select(u => $"{u.Username}|{u.Password}|{u.Balance}|{u.Key}");
             FileHandler.WriteToFile(DataFile, lines);
         }//SaveUsers
 
