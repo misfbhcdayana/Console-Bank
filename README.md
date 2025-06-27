@@ -8,7 +8,7 @@ This is a simple yet functional **console-based banking simulator** written in C
 - Deposit, Withdraw and Check balance
 - Transfer funds between users
 - View transaction history
-- Admin view for all user data
+- Admin view for all user data per account
 - Persistent data storage using file system (users.txt)
 
 ### How to run
@@ -24,8 +24,8 @@ This is a simple yet functional **console-based banking simulator** written in C
 3. Build and Run
 
 ### Note
-- For admin access, use password `open1234`
-- All user data is saved in `bin\Debug\users.txt` and each line contains `username|password|balance`
+- For admin access, use AdminKey `796852`
+- All user data is saved in `bin\Debug\users.txt` and each line contains `username|password|balance|key`
 - Transaction History for each user is saved in`bin\Debug\Transactions\transactions_{username}.txt` 
 
 ### To Do
@@ -39,4 +39,4 @@ This is a simple yet functional **console-based banking simulator** written in C
 
 ### Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change of improve.
-<p style="align:center">Made with ❤️ and C#</p>
+<p align="center">Made with ❤️ and C#</p>
