@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using User_Account_System.Models;
 
@@ -7,7 +8,7 @@ namespace User_Account_System.Services
     public class App
     {
         private readonly BankingSystem _bank;
-        private const string AdminPassword = "open1234";
+        private const int CurrentKey = 796852;
 
         //new instance of Sysytem() 
         public App()
@@ -24,10 +25,9 @@ namespace User_Account_System.Services
                 Console.Clear();
                 //Bank app menu
                 Console.WriteLine("=== Welcome to the Console Banking App ===\n");
-                Console.WriteLine("1. Create new user" +
-                    "\n2. Access the system " +
-                    "\n3. View All Users (Admin) " +
-                    "\n4. Exit");
+                Console.WriteLine("1. Create new account" +
+                    "\n2. Login " +
+                    "\n3. Exit");
                 Console.Write("\nEnter an option: ");
                 string choice = Console.ReadLine();
                 switch (choice)
@@ -38,10 +38,10 @@ namespace User_Account_System.Services
                     case "2":
                         Login();
                         break;
+                    //case "3":
+                    //    AdminView();
+                    //    break;
                     case "3":
-                        AdminView();
-                        break;
-                    case "4":
                         //set running to false once 'exit' is selected
                         running = false;
                         Console.WriteLine("Exiting the system...");
@@ -57,13 +57,13 @@ namespace User_Account_System.Services
         private void NewUser()
         {
             //take in prefered username and password
-            Console.WriteLine("\nUsername criteria:" + 
-                "\n\t- Must be atleast 6 characters long and not more than 20 characters" + 
+            Console.WriteLine("\nUsername criteria:" +
+                "\n\t- Must be atleast between 6 and 20 characters" + 
                 "\n\t- Must not contain any special characters except an underscore (_)");
             Console.Write("\nEnter a new username: ");
             string username = Console.ReadLine().Trim();
             Console.WriteLine("\nPassword criteria:" +
-                "\n\t- Must be between 8 and 35 character" +
+                "\n\t- Must be between 8 and 35 characters" +
                 "\n\t- Must contain atleast 1 uppercase letter" +
                 "\n\t- Must contain atleast 1 lowercase letter" +
                 "\n\t- Must contain at least 1 number");
@@ -97,7 +97,7 @@ namespace User_Account_System.Services
             Console.Write("Enter password: ");
             string password = Console.ReadLine();
             User user = _bank.Login(username, password);
-            if (user == null) //if username not found
+            if (user == null) //if username not found or password doesn't match
             {
                 Console.WriteLine("Invalid login details.");
             }
@@ -112,6 +112,7 @@ namespace User_Account_System.Services
         {
             //user active state
             bool active = true;
+            string AdminOption = (user.Key == null) ? "Activate admin rights" : "Admin view";
             while (active)
             {
                 Console.Clear();
@@ -123,7 +124,8 @@ namespace User_Account_System.Services
                     "\n4. Check balance" +
                     "\n5. View Transaction History" +
                     "\n6. Delete account" +
-                    "\n7. Logout" +
+                    "\n7. " + AdminOption +
+                    "\n8. Logout" +
                     "\nChoose an option: ");
                 string option = Console.ReadLine();
                 switch (option)
@@ -257,7 +259,36 @@ namespace User_Account_System.Services
                             Console.WriteLine("Invalid password. Action not completed");
                         }
                         return;
-                    case "7"://logout
+                    case "7":
+                        if (user.Key == null)
+                        {
+                            //max tries to activate admin rights
+                            int tries = 3;
+                            while (tries > 0)
+                            {
+                                Console.Write("Enter the Admin key: ");
+                                //if the key is valid, save the admin key to the user account and update the text file
+                                if (int.TryParse(Console.ReadLine(), out int key) && key == CurrentKey)
+                                {
+                                    user.Key = key;
+                                    _bank.SaveUsers();
+                                    Console.WriteLine("Admin Rights Activated.");
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"You have {--tries} more tries.");
+                                    if (tries == 0)
+                                        Console.ReadKey();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            AdminView(user);
+                        }
+                        break;
+                    case "8"://logout
                         active = false;
                         break;
                     default:
@@ -268,34 +299,96 @@ namespace User_Account_System.Services
                 }//switch case
             }//while loop
         }//RunBanking menu
-        private void AdminView()
+        private void AdminView(User user)
         {
-            Console.Write("Enter the admin password: ");
-            string adminpassword = Console.ReadLine();
-            //check the admin password
-            if (adminpassword != AdminPassword)
+            //running state
+            bool AdminActive = true;
+            while (AdminActive) 
             {
-                Console.WriteLine("Incorrect admin password.");
-                return;
-            }
-            else
-            {
-                //users is a list of type 'User'
-                List<User> users = _bank.GetAllUsers();
-                if (users.Count == 0)
+                Console.Clear();
+                Console.WriteLine($"Logged in as: {user.Username}. \nState: Account & Admin rights active.\n");
+                Console.WriteLine("1. View all accounts" +
+                        "\n2. View a user's Transaction History " +
+                        "\n3. Delete a user account" +
+                        "\n4. Exit Admin View");
+                Console.Write("\nEnter an option: ");
+                string opt = Console.ReadLine().Trim();
+                //copy of the list of users
+                List<User> _Users = _bank.GetAllUsers();
+                if (opt == "1")
                 {
-                    Console.WriteLine("No Users found");
+                    Console.WriteLine("\n=== All Users ===\n");
+                    foreach (User u in _Users)
+                    {
+                        if (u == user) // highlight the active account
+                            Console.Write("(On account) ");
+                        Console.WriteLine(u);
+                    }
+                }
+                else if (opt == "2")
+                {
+                    Console.Write("Enter the account holder's username: ");
+                    string _readUsername = Console.ReadLine();
+                    //get the user from the list
+                    User _HandlingAcc = _Users.FirstOrDefault(u => u.Username == _readUsername);
+                    if (_HandlingAcc == null)
+                        Console.WriteLine("\nUser not found.");
+                    else if (_HandlingAcc == user) //perform self actions out of admin view
+                        Console.WriteLine("\nTo view your transactions, log out of Admin View");
+                    else
+                    {
+                        Console.WriteLine($"\n=== Transaction history ({_HandlingAcc.Username}) === \n");
+                        List<string> _HandlingAccHistory = FileHandler.ReadTransactions(_HandlingAcc);
+                        //display
+                        if (_HandlingAccHistory.Count == 0)
+                        {
+                            Console.WriteLine("No transactions found.");
+                        }
+                        else
+                        {
+                            foreach (string line in _HandlingAccHistory)
+                            {
+                                Console.WriteLine(line);
+                            }
+                        }
+                    }
+                }
+                else if (opt == "3")
+                {
+                    Console.Write("Enter the account holder's username: ");
+                    string _deleteUsername = Console.ReadLine();
+                    User _delAcc = _Users.FirstOrDefault(u => u.Username == _deleteUsername);
+                    if (_delAcc == null)
+                        Console.WriteLine("\nUser not found.");
+                    else if (_delAcc == user)
+                        Console.WriteLine("\nTo view your transactions, log out of Admin View");//perform self actions out of admin view
+                    else
+                    {
+                        Console.WriteLine(_delAcc);
+                        Console.WriteLine("Are you sure you want to delete this account (y/n) ? ");
+                        string confirm = Console.ReadLine().Trim().ToLower();
+                        if (confirm == "y")
+                        {
+                            _bank.DeleteAccount(_delAcc);
+                            Console.WriteLine("\nAccount Deleted.");
+                        }
+                        else 
+                        {
+                            Console.WriteLine("\nAction cancelled.");
+                        }
+                    }
+                }
+                else if (opt == "4")
+                {
+                    AdminActive = false;
                 }
                 else
                 {
-                    Console.WriteLine("\n=== All Users ===");
-                    foreach (User user in users)
-                    {
-                        Console.WriteLine(user);
-                    }
+                    Console.WriteLine("\nInvalid option.");
                 }
-
-            }
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
+            }//while lopp
         }//AdminView
 
     }
