@@ -112,7 +112,7 @@ namespace User_Account_System.Services
         {
             //user active state
             bool active = true;
-            string AdminOption = (user.Key == null) ? "Activate admin rights" : "Admin view";
+            string AdminOption = (user.Key == -11111) ? "Activate admin rights" : "Admin view";
             while (active)
             {
                 Console.Clear();
@@ -260,7 +260,7 @@ namespace User_Account_System.Services
                         }
                         return;
                     case "7":
-                        if (user.Key == null)
+                        if (user.Key == -11111)
                         {
                             //max tries to activate admin rights
                             int tries = 3;
