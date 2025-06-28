@@ -11,11 +11,11 @@ namespace User_Account_System.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public decimal Balance { get; set; }
-        public int? Key { get; set; }
+        public int Key { get; set; }
         public User() { }
         //balance is optional in the method all
         //if ommitted, it is automatically set to zero
-        public User(string username, string password, decimal balance = 0, int? key = null)
+        public User(string username, string password, decimal balance = 0, int key = -11111)
         {
             Username = username;
             Password = password;
@@ -27,7 +27,7 @@ namespace User_Account_System.Models
         //when Console.WriteLine(user) is called
         public override string ToString()
         {
-            string text = (Key == null) ? "No" : "Yes";
+            string text = (Key == -11111) ? "No" : "Yes";
             return $"Username: {Username}, Balance: R{Balance}, Admin Rights: {text}";
         }
 
