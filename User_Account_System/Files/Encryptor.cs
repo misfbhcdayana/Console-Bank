@@ -1,29 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace User_Account_System.Files
 {
     public static class Encryptor
     {
+        //32 byte long key
         static readonly string EncryptionKey = "Aq7$Rz9&LdX@tM2p#Wv3!NhK0eFb^Cu";
+        //shift amount
         private const int Shift = 7;
-        public static string En_crypt(string text)
+        public static string En_crypt(string _text)
         {
             int KeyLength = EncryptionKey.Length;
-            string encrypted_text = "";
-            for (int i = 0; i < text.Length; i++)
+            List<byte> _encrypted_text_list = new List<byte>();
+
+            for (int i = 0; i < _text.Length; i++)
             {
-                char c = text[i];
+                char c = _text[i];
+                //shift
                 char shifted = (char)(c + Shift);
+                //flip
                 char flipped = (char)(255 - shifted);
+                //xor value
                 char xorValue = EncryptionKey[i % KeyLength];
+                //xor
                 char xorred = (char)(flipped ^ xorValue);
-                encrypted_text += xorred;
+                //append
+                _encrypted_text_list.Add((byte)xorred);
             }
-            return encrypted_text;
+            //to avoid characters like \n, \r, \t or even \0
+            return Convert.ToBase64String(_encrypted_text_list.ToArray());
+        }
+        public static string De_crypt(string _text)
+        {
+            int KeyLength = EncryptionKey.Length;
+            List<byte> _decrypted_text = new List<byte>();
+            byte[] retrieved = Convert.FromBase64String(_text);
+            for (int i = 0; i < retrieved.Length; i++)
+            {
+                char c = (char)retrieved[i];
+                //xor value
+                char xorValue = EncryptionKey[i % KeyLength];
+                //reverse xor
+                char xorred = (char)(c ^ xorValue);
+                //reverse flip
+                char flipped = (char)(255 - xorred);
+                //reverse shift
+                char shifted = (char)(flipped - Shift);
+                //append
+                _decrypted_text.Add((byte)shifted);
+            }
+            //convert to readable string
+            return Encoding.UTF8.GetString(_decrypted_text.ToArray());
         }
     }
 }
