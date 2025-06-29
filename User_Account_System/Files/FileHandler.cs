@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using User_Account_System.Models;
 
-namespace User_Account_System.Services
+namespace User_Account_System.Files
 {
     public static class FileHandler
     {
@@ -39,13 +39,22 @@ namespace User_Account_System.Services
             //if the file doesn't exit, return an empty file
             if (!File.Exists(filePath))
                 return new List<string>();
-            //else, return a string list of all lines of the file
-            return new List<string>(File.ReadAllLines(filePath));
+            //a list to hold the content
+            List<string> FileContent = new List<string>();
+            //a list of all lines of the file
+            IEnumerable<string> Lines = File.ReadAllLines(filePath);
+            foreach (string line in Lines)
+                //decrypt every line before adding to the file
+                FileContent.Add(Encryptor.De_crypt(line));
+            return FileContent;
         }
-        public static void WriteToFile(string filePath, IEnumerable<string> lines)
+        public static void WriteToFile(string filePath, IEnumerable<string> Lines)
         {
-            //write all lines of text to the file
-            File.WriteAllLines(filePath, lines);
+            //write all lines of encrypted text to the file
+            List<string> AddingLines = new List<string>();
+            foreach (string line in Lines)
+                AddingLines.Add(Encryptor.En_crypt(line));
+            File.WriteAllLines(filePath, AddingLines);
         }
     }
 }
