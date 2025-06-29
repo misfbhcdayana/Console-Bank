@@ -112,9 +112,9 @@ namespace User_Account_System.Services
         {
             //user active state
             bool active = true;
-            string AdminOption = (user.Key == -11111) ? "Activate admin rights" : "Admin view";
             while (active)
             {
+                string AdminOption = (user.Key == -11111) ? "Activate admin rights" : "Admin view";
                 Console.Clear();
                 //app menu
                 Console.WriteLine($"Logged in as: {user.Username}");
@@ -273,6 +273,7 @@ namespace User_Account_System.Services
                                     user.Key = key;
                                     _bank.SaveUsers();
                                     Console.WriteLine("Admin Rights Activated.");
+                                    Console.ReadKey();
                                     break;
                                 }
                                 else
@@ -321,8 +322,9 @@ namespace User_Account_System.Services
                     foreach (User u in _Users)
                     {
                         if (u == user) // highlight the active account
-                            Console.Write("(On account) ");
-                        Console.WriteLine(u);
+                            Console.WriteLine($"(On account) {u}");
+                        else
+                            Console.WriteLine(u);
                     }
                 }
                 else if (opt == "2")
@@ -361,7 +363,7 @@ namespace User_Account_System.Services
                     if (_delAcc == null)
                         Console.WriteLine("\nUser not found.");
                     else if (_delAcc == user)
-                        Console.WriteLine("\nTo view your transactions, log out of Admin View");//perform self actions out of admin view
+                        Console.WriteLine("\nTo delete your account, log out of Admin View");//perform self actions out of admin view
                     else
                     {
                         Console.WriteLine(_delAcc);

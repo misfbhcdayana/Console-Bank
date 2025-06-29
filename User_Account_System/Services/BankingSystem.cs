@@ -2,6 +2,7 @@
 using System.Linq;
 using System;
 using User_Account_System.Models;
+using User_Account_System.Files;
 
 
 namespace User_Account_System.Services
@@ -116,7 +117,7 @@ namespace User_Account_System.Services
             //else, update the sender's balance
             sender.Balance -= amt;
             //log the transaction
-            FileHandler.LogTransaction(sender, $"Transfered R{amt} to {receiver.Username}");
+            FileHandler.LogTransaction(sender, $"Transferred R{amt} to {receiver.Username}");
             //update the receiver's balance
             receiver.Balance += amt;
             //log the transaction
