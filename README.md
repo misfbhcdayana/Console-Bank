@@ -28,11 +28,8 @@ This is a simple yet functional **console-based banking simulator** written in C
 - All user data is saved in `bin\Debug\users.txt` and each line contains `username|password|balance|key`
 - Transaction History for each user is saved in`bin\Debug\Transactions\transactions_{username}.txt` 
 
-### To Do
-- Secure password hashing
-
-### Fixed
-- Loading users without admin rights
+### Fixing
+- Custom file encryption
 
 ### Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change of improve.
