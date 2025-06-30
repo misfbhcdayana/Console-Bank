@@ -25,11 +25,11 @@ This is a simple yet functional **console-based banking simulator** written in C
 
 ### Note
 - For admin access, use AdminKey `796852`
-- All user data is saved in `bin\Debug\users.txt` and each line contains `username|password|balance|key`
+- All user data is saved in `bin\Debug\users.txt` and each line contains `username|password|balance|key` which has been encrypted
 - Transaction History for each user is saved in`bin\Debug\Transactions\transactions_{username}.txt` 
 
-### Fixed
-- Custom file encryption
+### Added (30/06/2025)
+- Added all sensitive data to a .env file
 
 ### Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change of improve.
