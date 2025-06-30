@@ -9,7 +9,7 @@ namespace User_Account_System.Services
     public class App
     {
         private readonly BankingSystem _bank;
-        private const int CurrentKey = 796852;
+        private readonly string CurrentKey = Config.AdminKey;
 
         //new instance of Sysytem() 
         public App()
@@ -51,8 +51,7 @@ namespace User_Account_System.Services
                         Console.WriteLine("Invalid choice.");
                         break;
                 }
-                Console.WriteLine("\nPress any key to continue...");
-                Console.ReadKey();
+                go();
             }
         }//Run
         private void NewUser()
@@ -115,7 +114,7 @@ namespace User_Account_System.Services
             bool active = true;
             while (active)
             {
-                string AdminOption = (user.Key == -11111) ? "Activate admin rights" : "Admin view";
+                string AdminOption = (user.Key == CurrentKey) ? "Admin view" : "Activate admin rights";
                 Console.Clear();
                 //app menu
                 Console.WriteLine($"Logged in as: {user.Username}");
@@ -148,8 +147,7 @@ namespace User_Account_System.Services
                         {
                             Console.WriteLine("Invalid Amount.");
                         }
-                        Console.Write("\nPress any key to continue...");
-                        Console.ReadKey();
+                        go();
                         break;
                     case "2":
                         Console.Write("Amount to withdraw: R");
@@ -174,8 +172,7 @@ namespace User_Account_System.Services
                         {
                             Console.WriteLine("Invalid Amount.");
                         }
-                        Console.Write("\nPress any key to continue...");
-                        Console.ReadKey();
+                        go();
                         break;
                     case "3":
                         //transfer funds
@@ -216,14 +213,12 @@ namespace User_Account_System.Services
                         {
                             Console.WriteLine("Invalid Amount.");
                         }
-                        Console.Write("\nPress any key to continue...");
-                        Console.ReadKey();
+                        go();
                         break;
                     case "4":
                         //view balance
                         Console.WriteLine($"Your balance: R{user.Balance}");
-                        Console.Write("\nPress any key to continue...");
-                        Console.ReadKey();
+                        go();
                         break;
                     case "5"://transaction history
                         //List containing transaction history
@@ -261,15 +256,20 @@ namespace User_Account_System.Services
                         }
                         return;
                     case "7":
-                        if (user.Key == -11111)
+                        if (user.Key == CurrentKey)
+                        {
+                            AdminView(user);
+                        }
+                        else
                         {
                             //max tries to activate admin rights
                             int tries = 3;
                             while (tries > 0)
                             {
                                 Console.Write("Enter the Admin key: ");
+                                string key = Console.ReadLine();
                                 //if the key is valid, save the admin key to the user account and update the text file
-                                if (int.TryParse(Console.ReadLine(), out int key) && key == CurrentKey)
+                                if (key == CurrentKey)
                                 {
                                     user.Key = key;
                                     _bank.SaveUsers();
@@ -285,18 +285,13 @@ namespace User_Account_System.Services
                                 }
                             }
                         }
-                        else
-                        {
-                            AdminView(user);
-                        }
                         break;
                     case "8"://logout
                         active = false;
                         break;
                     default:
                         Console.WriteLine("Invalid choice");
-                        Console.Write("\nPress any key to continue...");
-                        Console.ReadKey();
+                        go();
                         break;  
                 }//switch case
             }//while loop
@@ -389,10 +384,13 @@ namespace User_Account_System.Services
                 {
                     Console.WriteLine("\nInvalid option.");
                 }
-                Console.WriteLine("\nPress any key to continue...");
-                Console.ReadKey();
+                go();
             }//while lopp
         }//AdminView
-
+        private void go()
+        {
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+        }//go     
     }
 }

@@ -7,7 +7,7 @@ namespace User_Account_System.Files
     public static class Encryptor
     {
         //32 byte long key
-        static readonly string EncryptionKey = "Aq7$Rz9&LdX@tM2p#Wv3!NhK0eFb^Cu";
+        static readonly string EncryptionKey = Config.EncryptionKey;
         //shift amount
         private const int Shift = 7;
         public static string En_crypt(string _text)

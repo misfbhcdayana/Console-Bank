@@ -94,7 +94,7 @@ namespace User_Account_System.Services
                 if (parts.Length==4 && decimal.TryParse(parts[2], out decimal balance))
                 {
                     //populate the list with all existing users
-                    Users.Add(new User(parts[0], parts[1], balance, Convert.ToInt32(parts[3])));
+                    Users.Add(new User(parts[0], parts[1], balance, parts[3]));
                 }
             }
         }//LoadUsers
