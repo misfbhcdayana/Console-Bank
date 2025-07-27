@@ -8,8 +8,6 @@ namespace User_Account_System.Models
         public decimal Balance { get; set; }
         public string Key { get; set; }
         public User() { }
-        //balance is optional in the method all
-        //if ommitted, it is automatically set to zero
         public User(string username, string password, decimal balance = 0, string key = "------")
         {
             Username = username;

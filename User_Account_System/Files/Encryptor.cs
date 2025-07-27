@@ -8,7 +8,6 @@ namespace User_Account_System.Files
     {
         //32 byte long key
         static readonly string EncryptionKey = Config.EncryptionKey;
-        //shift amount
         private const int Shift = 7;
         public static string En_crypt(string _text)
         {
@@ -18,15 +17,10 @@ namespace User_Account_System.Files
             for (int i = 0; i < _text.Length; i++)
             {
                 char c = _text[i];
-                //shift
                 char shifted = (char)(c + Shift);
-                //flip
                 char flipped = (char)(255 - shifted);
-                //xor value
                 char xorValue = EncryptionKey[i % KeyLength];
-                //xor
                 char xorred = (char)(flipped ^ xorValue);
-                //append
                 _encrypted_text_list.Add((byte)xorred);
             }
             //to avoid characters like \n, \r, \t or even \0
@@ -40,15 +34,10 @@ namespace User_Account_System.Files
             for (int i = 0; i < retrieved.Length; i++)
             {
                 char c = (char)retrieved[i];
-                //xor value
                 char xorValue = EncryptionKey[i % KeyLength];
-                //reverse xor
                 char xorred = (char)(c ^ xorValue);
-                //reverse flip
                 char flipped = (char)(255 - xorred);
-                //reverse shift
                 char shifted = (char)(flipped - Shift);
-                //append
                 _decrypted_text.Add((byte)shifted);
             }
             //convert to readable string
