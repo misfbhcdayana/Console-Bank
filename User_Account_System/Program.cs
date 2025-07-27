@@ -6,9 +6,6 @@ namespace User_Account_System
         static void Main(string[] args)
         {
             new App().Run();
-            //same as
-            //App app = new App();
-            //app.Run();
         }
     }
 }
